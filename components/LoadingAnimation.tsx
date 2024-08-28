@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
+  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -9,11 +10,10 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-
-const easing = Easing.bounce;
+import { ThemedText } from "./ThemedText";
 
 export const LoadingAnimation = () => {
-  const CIRCLE_SIZE = 30;
+  const CIRCLE_SIZE = 10;
   const circle1 = useSharedValue(CIRCLE_SIZE);
   const circle2 = useSharedValue(CIRCLE_SIZE);
   const circle3 = useSharedValue(CIRCLE_SIZE);
@@ -23,7 +23,11 @@ export const LoadingAnimation = () => {
       width: circle1.value,
       height: circle1.value,
       borderRadius: circle1.value / 2,
-      backgroundColor: "blue",
+      backgroundColor: interpolateColor(
+        circle1.value,
+        [10, 15, 20],
+        ["white", "#0084ff", "blue"]
+      ),
     };
   });
   const circle2Style = useAnimatedStyle(() => {
@@ -31,7 +35,11 @@ export const LoadingAnimation = () => {
       width: circle2.value,
       height: circle2.value,
       borderRadius: circle2.value / 2,
-      backgroundColor: "blue",
+      backgroundColor: interpolateColor(
+        circle2.value,
+        [10, 15, 20],
+        ["white", "#0084ff", "blue"]
+      ),
     };
   });
   const circle3Style = useAnimatedStyle(() => {
@@ -39,14 +47,18 @@ export const LoadingAnimation = () => {
       width: circle3.value,
       height: circle3.value,
       borderRadius: circle3.value / 2,
-      backgroundColor: "blue",
+      backgroundColor: interpolateColor(
+        circle3.value,
+        [10, 15, 20],
+        ["white", "#0084ff", "blue"]
+      ),
     };
   });
 
   useEffect(() => {
     circle1.value = withRepeat(
       withSequence(
-        withTiming(40, { duration: 500, easing: Easing.cubic }),
+        withTiming(20, { duration: 500, easing: Easing.cubic }),
         withTiming(CIRCLE_SIZE, { duration: 500, easing: Easing.cubic })
       ),
       -1,
@@ -56,7 +68,7 @@ export const LoadingAnimation = () => {
       100,
       withRepeat(
         withSequence(
-          withTiming(40, { duration: 500, easing: Easing.cubic }),
+          withTiming(20, { duration: 500, easing: Easing.cubic }),
           withTiming(CIRCLE_SIZE, { duration: 500, easing: Easing.cubic })
         ),
         -1,
@@ -67,19 +79,24 @@ export const LoadingAnimation = () => {
       200,
       withRepeat(
         withSequence(
-          withTiming(40, { duration: 500, easing: Easing.cubic }),
+          withTiming(20, { duration: 500, easing: Easing.cubic }),
           withTiming(CIRCLE_SIZE, { duration: 500, easing: Easing.cubic })
         ),
         -1,
         true
       )
     );
+
     return () => {};
   }, []);
 
   return (
     <>
       <View style={styles.container}>
+        <ThemedText style={{ fontWeight: "bold" }}>
+          Loading indicator.
+        </ThemedText>
+
         <View style={styles.card}>
           <Animated.View style={circle1Style} />
           <Animated.View style={circle2Style} />
@@ -92,11 +109,9 @@ export const LoadingAnimation = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
-    gap: 10,
+    flexDirection: "column",
   },
   card: {
     flexDirection: "row",
@@ -104,10 +119,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "black",
-    width: 200,
-    height: 100,
+    width: 100,
+    height: 50,
   },
   ball: {
     width: 50,
