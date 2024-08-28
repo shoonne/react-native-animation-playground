@@ -21,7 +21,7 @@ export const GestureHandler = ({ width, height }: GestureProps) => {
   const currentY = useSharedValue<number>(0);
 
   const pan = Gesture.Pan()
-    .onBegin((event) => {
+    .onBegin(() => {
       currentX.value = translateX.value;
       currentY.value = translateY.value;
     })
