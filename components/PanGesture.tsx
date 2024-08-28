@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -29,10 +29,6 @@ export const GestureHandler = ({ width, height }: GestureProps) => {
       translateX.value = currentX.value + event.translationX;
       translateY.value = currentY.value + event.translationY;
     });
-  // .onFinalize((event) => {
-  //   currentX.value = event.translationX;
-  //   currentY.value = event.translationY;
-  // });
 
   const style = useAnimatedStyle(() => {
     return {
@@ -47,7 +43,9 @@ export const GestureHandler = ({ width, height }: GestureProps) => {
     <GestureHandlerRootView>
       <GestureDetector gesture={pan}>
         <Animated.View style={style}>
-          <View style={styles.card} />
+          <View style={styles.card}>
+            <Text style={{ color: "white", fontWeight: "bold" }}>Drag me</Text>
+          </View>
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
@@ -58,7 +56,9 @@ const styles = StyleSheet.create({
   card: {
     width: 200,
     height: 100,
-    backgroundColor: "red",
+    backgroundColor: "blue",
     borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
